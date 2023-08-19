@@ -37,7 +37,7 @@ My first intention was to only make the feature in v1. But, with my newfound kno
 Using regex, upon clicking the Edit button on the ticket, the unnecessary characters are removed automatically *(which previously was done manually by the agents for each ticket)*.
 
 ### Prevent laptop's screen going to sleep
-&emsp;For long shifts with a quiet queue.<br />
+&emsp;For long shifts with a quiet queue. Embeds an async function that continuously monitors the visibility of the tab. Using the wakeLock API it keeps the system from going to sleep, as long as the targeted tab is focused.<br />
 <hr>
 <code>navigator.wakeLock.request('screen')
   .then((wakeLock) => {
