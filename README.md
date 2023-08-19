@@ -21,3 +21,32 @@ This version would only have the content script monitor the web page of the ITSM
 ![image](https://github.com/paperpiedpiper/CA_Tool/assets/105975348/a9c75024-90b5-494f-bf14-043aae68cf98)
 
 The popup window for the extension was rudimentary, only serving as the pair to the snooze buttons usable on the notification.
+## v2 - extra features
+My first intention was to only create the features in v1. But, with my newfound knowledge I wanted to create some aditional UI customizations that I would've liked to have.
+### On-load click() on dropdown menus
+&emsp;Some sub-queues that were monitored were not being shown by default on page load.
+
+![screen-recording](https://github.com/paperpiedpiper/CA_Tool/assets/105975348/d1d82464-cb22-4434-91f4-df4ca8067634)
+
+### Auto-edit new tickets summary & content
+###### &emsp;*no example due to NDA*<br />
+&emsp;New tickets were auto-generated from emails sent to our team's inbox, and were always parsed into the new ticket's summary and content input text fields as such:<br />
+<code>-[[email's subject field]]-</code><br />
+<code>-[[email's subject field]]- email's body content</code>
+
+Using regex, upon clicking the Edit button on the ticket, the unnecessary characters are removed automatically *(which previously was done manually by the agents for each ticket)*.
+
+### Prevent laptop's screen going to sleep
+&emsp;For long shifts with a quiet queue.<br />
+<hr>
+<code>navigator.wakeLock.request('screen')
+  .then((wakeLock) => {
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState == 'visible') {
+        navigator.wakeLock.request('screen')
+      } else {
+        wakeLock.release();
+      }
+    });
+  })</code>
+<hr>
