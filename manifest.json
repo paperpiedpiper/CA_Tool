@@ -1,18 +1,32 @@
 {
-    "manifest_version": 3,
-    "name": "Unassigned Tickets Monitor",
-    "version": "1.0",
-    "permissions": ["activeTab", "tabs", "notifications"],
-    "background": {
-      "service_worker": "service-worker.js"
+  "manifest_version": 3,
+  "name": "CA Tool",
+  "version": "1.0",
+  "permissions": ["activeTab", "tabs", "notifications"],
+  "background": {
+    "service_worker": "service-worker.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://goodman-sd.stefanini.com/CAisd/pdmweb.exe"],
+      "js": ["mainWindow.js"]
     },
-    "content_scripts": [
-      {
-        "matches": ["https://goodman-sd.stefanini.com/CAisd/pdmweb.exe"],
-        "js": ["content.js"]
-      }
-    ],
-    "action": {
-      "default_popup": "popup.html"
+    {
+      "matches": ["https://goodman-sd.stefanini.com/CAisd/html/popup_frames.html?POPUP_URLIX=0+popupType=1"],
+      "js": ["ticketWindow.js"]
+    },
+    {
+      "matches": ["https://goodman-sd.stefanini.com/CAisd/html/popup_frames.html?KEEP.AHD_menu=No+POPUP_URLIX=0+popupType=1"],
+      "js": ["manualnotifyWindow.js"]
     }
- }
+  ],
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "icons": {
+    "16": "images/icon16.png",
+    "32": "images/icon32.png",
+    "48": "images/icon48.png",
+    "128": "images/icon128.png"
+  }
+}
