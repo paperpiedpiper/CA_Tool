@@ -22,7 +22,7 @@ This version would only have the content script monitor the web page of the ITSM
 
 The popup window for the extension was rudimentary, only serving as the pair to the snooze buttons usable on the notification.
 ## v2 - extra features
-My first intention was to only create the features in v1. But, with my newfound knowledge I wanted to create some aditional UI customizations that I would've liked to have.
+My first intention was to only make the feature in v1. But, with my newfound knowledge I wanted to create some aditional UI customizations that I would've liked to have.
 ### On-load click() on dropdown menus
 &emsp;Some sub-queues that were monitored were not being shown by default on page load.
 
