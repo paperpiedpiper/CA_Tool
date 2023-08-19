@@ -1,0 +1,22 @@
+html, body, div, span {
+    margin: 0;
+	padding: 0;
+	border: 0;
+}
+
+h1 {
+    text-align: center;
+}
+
+body {
+    width: 100px;
+    height: 200px;
+    border-style: dashed;
+    padding: 5px;
+    border-width: 1px;
+    margin: 2px;
+}
+
+.buttonHr {
+    width: 15px;
+}
