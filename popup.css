@@ -4,19 +4,35 @@ html, body, div, span {
 	border: 0;
 }
 
-h1 {
+h2, h3 {
     text-align: center;
 }
 
 body {
     width: 100px;
-    height: 200px;
+    height: 300px;
     border-style: dashed;
     padding: 5px;
     border-width: 1px;
     margin: 2px;
 }
 
+.bodyWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+button {
+    width: auto;
+}
+
 .buttonHr {
     width: 15px;
+}
+
+#tickets-input {
+    width: 50px;
+    height: 70px;
 }

@@ -1,23 +1,29 @@
 {
   "manifest_version": 3,
   "name": "CA Tool",
-  "version": "1.0",
+  "version": "3.3",
   "permissions": ["activeTab", "tabs", "notifications"],
   "background": {
     "service_worker": "service-worker.js"
   },
   "content_scripts": [
     {
+      "all_frames": true,
       "matches": ["https://goodman-sd.stefanini.com/CAisd/pdmweb.exe"],
-      "js": ["mainWindow.js"]
+      "js": ["mainWindow.js"],
+      "run_at": "document_idle"
     },
     {
+      "all_frames": true,
       "matches": ["https://goodman-sd.stefanini.com/CAisd/html/popup_frames.html?POPUP_URLIX=0+popupType=1"],
-      "js": ["ticketWindow.js"]
+      "js": ["ticketWindow.js"],
+      "run_at": "document_end"
     },
     {
+      "all_frames": true,
       "matches": ["https://goodman-sd.stefanini.com/CAisd/html/popup_frames.html?KEEP.AHD_menu=No+POPUP_URLIX=0+popupType=1"],
-      "js": ["manualnotifyWindow.js"]
+      "js": ["ticketModuleWindow.js"],
+      "run_at": "document_end"
     }
   ],
   "action": {
