@@ -52,6 +52,7 @@ Using regex, upon clicking the Edit button on the ticket, the unnecessary charac
 <hr>
 
 ## v3 - refactoring and extra features
+
 ### Multiple ticket opener
 &emsp;Each day we'd get a list of tickets from the backlog to check up on. It became tedious to copy-paste ~15 tickets individually each day, so I re-designed the extension's popup a and added a new functionality: <br />
 
@@ -66,3 +67,19 @@ So, I added an option to use regex to cut out the extra newline characters on ke
 
 ![98bab88a-ec8b-4192-8ab7-0ca53452caec](https://github.com/paperpiedpiper/CA_Tool/assets/105975348/5896bc6c-20b7-4a27-be3d-c7d0a3fb1e60)
 
+### Knowledge article linking tracker
+&emsp;One of our SLAs was about making sure each ticket had a KB article linked to it, so that the procedure is described for everyone who was to view the ticket further down the line. Due to the nature of where it was positioned, it was cumbersome to reach in an efficient manner. So, another tracker was created to peek at the DOM contents and see if the following message was present:
+
+![image](https://github.com/paperpiedpiper/CA_Tool/assets/105975348/8ed34d53-2eaf-4634-bf53-4b5039128609)
+
+If it was, the content script would append a child to the DOM so that the following warning was automatically displayed on the ticket's webpage:
+
+![image](https://github.com/paperpiedpiper/CA_Tool/assets/105975348/e779f66c-c2e7-4990-ae7d-e11ecdf3b1b9)
+
+### Final refactoring
+
+Multiple elements were refactored, but the most important part was applying my newfound understanding of how to work with nested frames.
+
+![image](https://github.com/paperpiedpiper/CA_Tool/assets/105975348/60f8aaca-6b09-4178-ba01-567799acf177)
+
+Initially, I was accessing the DOM elements I needed via a very hacky chain of childNodes[i] selectors. Over the weeks I worked on this project, I understood better and better the functionality of nested frames and the HTML documents within each of them.
