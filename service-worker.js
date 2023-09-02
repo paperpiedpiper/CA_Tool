@@ -14,11 +14,11 @@ function createNotification(){
     message: "Unassigned tickets in!",
     iconUrl: "images/alert.png",
     buttons: [{
-      title: "Snooze for 10 minutes",
+      title: "Snooze for 5 minutes",
       iconUrl: "images/snooze1.png",
     },
   {
-    title: "Snooze for 20 minutes",
+    title: "Snooze for 10 minutes",
     iconUrl: "images/snooze2.png"
   }]
   };

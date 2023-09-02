@@ -16,19 +16,22 @@ let checkUnassigned_handle,
 
     
 function clickOnQueues() {
-  setTimeout(function() {
-    document.querySelector('[name="product"]')?.contentWindow?.document.querySelector('[name="tab_2000"]')?.contentWindow?.document.querySelector('[name="role_main"]')?.contentWindow?.document.querySelector('[name="scoreboard"]')?.contentWindow?.document.querySelector('#s2pm')?.click();
-    
-    setTimeout(function() {
-      document.querySelector('[name="product"]')?.contentWindow?.document.querySelector('[name="tab_2000"]')?.contentWindow?.document.querySelector('[name="role_main"]')?.contentWindow?.document.querySelector('[name="scoreboard"]')?.contentWindow?.document.querySelector('#s6pm')?.click();
+  setTimeout(() => {
+    document.querySelector('[name="product"]')?.contentWindow?.document.querySelector('[name="tab_2000"]')?.contentWindow?.document.querySelector('[name="role_main"]')?.contentWindow?.document.querySelector('[name="scoreboard"]')?.contentWindow?.document.querySelector('button#s1ds.navbar_btnright')?.click();
+
+    setTimeout(() => {
+      document.querySelector('[name="product"]')?.contentWindow?.document.querySelector('[name="tab_2000"]')?.contentWindow?.document.querySelector('[name="role_main"]')?.contentWindow?.document.querySelector('[name="scoreboard"]')?.contentWindow?.document.querySelector('#s2pm')?.click();
       
-      setTimeout(function() {
-        document.querySelector('[name="product"]')?.contentWindow?.document.querySelector('[name="tab_2000"]')?.contentWindow?.document.querySelector('[name="role_main"]')?.contentWindow?.document.querySelector('[name="scoreboard"]')?.contentWindow?.document.querySelector('#s10pm')?.click();
-      }, 400);
-      
-    }, 400);
-    
-  }, 400);
+      setTimeout(() => {
+        document.querySelector('[name="product"]')?.contentWindow?.document.querySelector('[name="tab_2000"]')?.contentWindow?.document.querySelector('[name="role_main"]')?.contentWindow?.document.querySelector('[name="scoreboard"]')?.contentWindow?.document.querySelector('#s6pm')?.click();
+
+        setTimeout(() => {
+          document.querySelector('[name="product"]')?.contentWindow?.document.querySelector('[name="tab_2000"]')?.contentWindow?.document.querySelector('[name="role_main"]')?.contentWindow?.document.querySelector('[name="scoreboard"]')?.contentWindow?.document.querySelector('#s10pm')?.click();
+
+        }, 300);
+      }, 300);
+    }, 300);
+  }, 300);
 };
 
 function checkUnassignedTickets() {
@@ -82,12 +85,12 @@ function openTickets(inputArr) {
       };
 
       let ticketNumber = inputArr[currentIndex];
-      goField.value = ticketNumber; // Assuming goField is an input element
+      goField.value = ticketNumber;
       goButton.click();
 
       setTimeout(() => {
           openTicketWindow(inputArr, ++currentIndex);
-      }, 300);
+      }, 500);
   };
   openTicketWindow(inputArr);
 };
@@ -110,6 +113,14 @@ function driver() {
   };
 };
 
+function antiLogout() {
+  const button = document.querySelector('[name="product"]')?.contentWindow?.document.querySelector('[name="tab_2000"]')?.contentWindow?.document.querySelector('[name="role_main"]')?.contentWindow?.document.querySelector('[name="cai_main"]')?.contentWindow?.document.querySelector('a#imgBtn2.button.enabledattr.buttonEnabled')
+   || document.querySelector('[name="tab_2000"]')?.contentWindow?.document.querySelector('[name="role_main"]')?.contentWindow?.document.querySelector('[name="cai_main"]')?.contentWindow?.document.querySelector('a#imgBtn2.button.enabledattr.buttonEnabled')
+   || document.querySelector('[name="role_main"]')?.contentWindow?.document.querySelector('[name="cai_main"]')?.contentWindow?.document.querySelector('a#imgBtn2.button.enabledattr.buttonEnabled')
+   || document.querySelector('[name="cai_main"]')?.contentWindow?.document.querySelector('a#imgBtn2.button.enabledattr.buttonEnabled');
+   button?.click();
+}
+
 function launch() {
   setInterval(driver, 1000);
 };
@@ -118,11 +129,11 @@ function launch() {
 chrome.runtime.onMessage.addListener((message) => {
   switch (message.message) {
     case "button1Clicked":
-      setSnooze(600000);
+      setSnooze(300000);
       console.log(message.message);
       break;
     case "button2Clicked":
-      setSnooze(1200000);
+      setSnooze(600000);
       console.log(message.message);
       break;
     case "popupUnsnooze":
@@ -141,13 +152,18 @@ chrome.runtime.onMessage.addListener((message) => {
   }
 });
 
-document.querySelector('[name="product"]')?.addEventListener('load', function() {
-  // Opens up EU/USA/APAC queues after the page loads
-  setTimeout(clickOnQueues, 3000);
-  // Launches the driver
-  setTimeout(launch, 3000);
+document.querySelector('[name="product"]')?.addEventListener('load', () => {
+  document.querySelector('[name="product"]')?.contentWindow?.document.querySelector('[name="tab_2000"]')?.addEventListener('load', () => {
+    document.querySelector('[name="product"]')?.contentWindow?.document.querySelector('[name="tab_2000"]')?.contentWindow?.document.querySelector('[name="role_main"]')?.addEventListener('load', () => {
+      // Opens up EU/USA/APAC queues after the page loads
+      setTimeout(clickOnQueues, 1500);
+      // Launches the driver
+      setTimeout(launch, 1500);
+      // Starts anti-AFK
+      setInterval(antiLogout, 300000);
+    })
+  })
 });
-
 
 // Resets timer and isUrgent state, if tickets are back to 0
 setInterval(() => {
@@ -160,6 +176,7 @@ setInterval(() => {
     }
   } catch (e){};
 }, 500);
+
 // Prevents computer sleep while CA tab is open and focused
 (() => {
   navigator.wakeLock.request('screen')

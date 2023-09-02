@@ -27,4 +27,4 @@ document.querySelector("input#tickets-input").addEventListener("input", function
     chrome.tabs.sendMessage(tabId, { message: "ticketsInputted", input: inputArray});
     });
     setInterval(() => window.close(), 100);
-})
+});
