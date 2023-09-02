@@ -35,7 +35,7 @@ function clickOnQueues() {
 };
 
 function checkUnassignedTickets() {
-  if (isSnoozeOn == false) {
+  if (!isSnoozeOn) {
     try {
       unassignedTickets = document.querySelector('[name="product"]')?.contentWindow?.document.querySelector('[name="tab_2000"]')?.contentWindow?.document.querySelector('[name="role_main"]')?.contentWindow?.document.querySelector('[name="scoreboard"]')?.contentWindow?.document.querySelector('#s1ct')
        || document.querySelector('[name="tab_2000"]')?.contentWindow?.document.querySelector('[name="role_main"]')?.contentWindow?.document.querySelector('[name="scoreboard"]')?.contentWindow?.document.querySelector('#s1ct')
@@ -130,24 +130,18 @@ chrome.runtime.onMessage.addListener((message) => {
   switch (message.message) {
     case "button1Clicked":
       setSnooze(300000);
-      console.log(message.message);
       break;
     case "button2Clicked":
       setSnooze(600000);
-      console.log(message.message);
       break;
     case "popupUnsnooze":
       popupUnsnooze();
-      console.log(message.message);
       break;
     case "30mBreak":
       setSnooze(1800000);
-      console.log(message.message);
       break;
     case "ticketsInputted":
       openTickets(message.input);
-      console.log(message.message);
-      console.log(message.input);
       break;
   }
 });
@@ -191,4 +185,3 @@ setInterval(() => {
   })
   .catch(e => {});
 })();
-
