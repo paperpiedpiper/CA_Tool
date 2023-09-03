@@ -74,7 +74,8 @@ So, I added an option to use regex to cut out the extra newline characters on ke
 
 If it was, the content script would append a child to the DOM so that the following warning was automatically displayed on the ticket's webpage:
 
-![image](https://github.com/paperpiedpiper/CA_Tool/assets/105975348/e779f66c-c2e7-4990-ae7d-e11ecdf3b1b9)
+![image](https://github.com/paperpiedpiper/CA_Tool/assets/105975348/b81abb87-06e9-417d-afd6-e4d715328411)
+
 
 ### Final refactoring
 
