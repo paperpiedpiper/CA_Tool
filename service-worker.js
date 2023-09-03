@@ -7,7 +7,7 @@ chrome.runtime.onMessage.addListener((message) => {
   }
 });
 
-function createNotification(){
+function createNotification() {
   const options = {
     type: "basic",
     title: "Alert",
@@ -44,4 +44,4 @@ function createNotification(){
   setTimeout(function(){
     chrome.notifications.clear("unassignedAlert");
   }, 7000);
-}
+};

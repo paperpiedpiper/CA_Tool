@@ -5,6 +5,7 @@ let summaryFieldElement,
     kbWarningElement = null;
 
 document.querySelector('[name="cai_main"]').addEventListener('load', function() {
+    closeFakeTicket();
     setTimeout(checkKB, 2000);
     setTimeout(stageTransitionToEdit, 2000);
 });
@@ -96,4 +97,9 @@ function stageTransitionToEdit() {
             makeEditPageChanges();
         }, 3000);
     });
+};
+
+function closeFakeTicket() {
+    const h3Element = document.querySelector('[name="cai_main"]')?.contentWindow?.document.querySelector("h3") || document.querySelector("h3");
+    if (h3Element?.innerText == "z_cr_all not found") window.close();
 };
