@@ -13,27 +13,37 @@ let checkUnassigned_handle,
     checkUnassigned_handle_fast,
     timerInterval_handle;
 
+(() => {
+  navigator.wakeLock.request('screen')
+  .then((wakeLock) => {
+      document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState == 'visible') {
+          navigator.wakeLock.request('screen')
+        } else {
+          wakeLock.release();
+        }
+      });
+    })
+    .catch(e => {});
+})();
+
 function clickOnQueues() {
   setTimeout(() => {
-    document.querySelector('[name="product"]')?.contentWindow?.document.querySelector('[name="tab_2000"]')?.contentWindow?.document.querySelector('[name="role_main"]')?.contentWindow?.document.querySelector('[name="scoreboard"]')?.contentWindow?.document.querySelector('button#s1ds.navbar_btnright')?.click();
-
+    document.querySelector('[name="product"]')?.contentWindow?.document.querySelector('[name="tab_2000"]')?.contentWindow?.document.querySelector('[name="role_main"]')?.contentWindow?.document.querySelector('[name="scoreboard"]')?.contentWindow?.document.querySelector('#s2pm')?.click();
+    
     setTimeout(() => {
-      document.querySelector('[name="product"]')?.contentWindow?.document.querySelector('[name="tab_2000"]')?.contentWindow?.document.querySelector('[name="role_main"]')?.contentWindow?.document.querySelector('[name="scoreboard"]')?.contentWindow?.document.querySelector('#s2pm')?.click();
-      
+      document.querySelector('[name="product"]')?.contentWindow?.document.querySelector('[name="tab_2000"]')?.contentWindow?.document.querySelector('[name="role_main"]')?.contentWindow?.document.querySelector('[name="scoreboard"]')?.contentWindow?.document.querySelector('#s6pm')?.click();
+
       setTimeout(() => {
-        document.querySelector('[name="product"]')?.contentWindow?.document.querySelector('[name="tab_2000"]')?.contentWindow?.document.querySelector('[name="role_main"]')?.contentWindow?.document.querySelector('[name="scoreboard"]')?.contentWindow?.document.querySelector('#s6pm')?.click();
+        document.querySelector('[name="product"]')?.contentWindow?.document.querySelector('[name="tab_2000"]')?.contentWindow?.document.querySelector('[name="role_main"]')?.contentWindow?.document.querySelector('[name="scoreboard"]')?.contentWindow?.document.querySelector('#s10pm')?.click();
 
-        setTimeout(() => {
-          document.querySelector('[name="product"]')?.contentWindow?.document.querySelector('[name="tab_2000"]')?.contentWindow?.document.querySelector('[name="role_main"]')?.contentWindow?.document.querySelector('[name="scoreboard"]')?.contentWindow?.document.querySelector('#s10pm')?.click();
-
-        }, 300);
-      }, 400);
-    }, 400);
-  }, 400);
+      }, 250);
+    }, 300);
+  }, 300);
 };
 
 function checkUnassignedTickets() {
-  if (!isSnoozeOn) {
+  if (isSnoozeOn == false) {
     try {
       unassignedTickets = document.querySelector('[name="product"]')?.contentWindow?.document.querySelector('[name="tab_2000"]')?.contentWindow?.document.querySelector('[name="role_main"]')?.contentWindow?.document.querySelector('[name="scoreboard"]')?.contentWindow?.document.querySelector('#s1ct')
        || document.querySelector('[name="tab_2000"]')?.contentWindow?.document.querySelector('[name="role_main"]')?.contentWindow?.document.querySelector('[name="scoreboard"]')?.contentWindow?.document.querySelector('#s1ct')
@@ -41,11 +51,11 @@ function checkUnassignedTickets() {
        || document.querySelector('[name="scoreboard"]')?.contentWindow?.document.querySelector('#s1ct')
        || document.querySelector('#s1ct');
 
-      if (+unassignedTickets?.innerHTML != 0) {
-        chrome.runtime.sendMessage({ message: "trigger" });
+      if (unassignedTickets?.innerHTML != '0') {
+        chrome.runtime.sendMessage({ message: "ticketAlert" });
         theTimer();
       }
-    } catch (e){console.error('Error:', e)};
+    } catch (e){};
   };  
 };
 
@@ -53,7 +63,7 @@ function setSnooze(time) {
   isSnoozeOn = true;
   setTimeout(() => {
     isSnoozeOn = false
-  }, time);
+  }, time * 60000);
 };
 
 function popupUnsnooze () {
@@ -86,7 +96,7 @@ function openTickets(inputArr) {
 
       setTimeout(() => {
           openTicketWindow(inputArr, ++currentIndex);
-      }, 500);
+      }, 1000);
   };
   openTicketWindow(inputArr);
 };
@@ -108,21 +118,21 @@ function driver() {
     currentNotificationSpeed = 'fast';
   };
 };
-
 // ////////////////////////////////////////////////////////////////////////////////////////////////////
+
 chrome.runtime.onMessage.addListener((message) => {
   switch (message.message) {
     case "button1Clicked":
-      setSnooze(300000);
+      setSnooze(10);
       break;
     case "button2Clicked":
-      setSnooze(600000);
+      setSnooze(5);
       break;
     case "popupUnsnooze":
       popupUnsnooze();
       break;
     case "30mBreak":
-      setSnooze(1800000);
+      setSnooze(30);
       break;
     case "ticketsInputted":
       openTickets(message.input);
@@ -136,11 +146,13 @@ document.querySelector('[name="product"]')?.addEventListener('load', () => {
       // Opens up EU/USA/APAC queues after the page loads
       setTimeout(clickOnQueues, 1000);
       // Launches the driver
-      setTimeout(driver, 2000);
+      setTimeout(driver, 1000);
       // Anti-AFK
       setInterval(() => {
-        openTickets(['fake']);
-      }, 2000000);
+        openTickets(['123']);
+        chrome.runtime.sendMessage({ message: "closeLatestTab" });
+      }, 3300000);
+      
     })
   })
 });
@@ -157,18 +169,3 @@ const resetTimerAndUrgentState = () => {
   } catch (e) {console.error('Error:', e)};
 };
 setInterval(resetTimerAndUrgentState, 6000);
-
-// Prevents computer sleep while CA tab is open and focused
-setTimeout(() => {
-  navigator.wakeLock.request('screen')
-  .then((wakeLock) => {
-    document.addEventListener('visibilitychange', () => {
-      if (document.visibilityState == 'visible') {
-        navigator.wakeLock.request('screen')
-      } else {
-        wakeLock.release();
-      }
-    });
-  })
-  .catch(e => {});
-}, 5000);

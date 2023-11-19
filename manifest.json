@@ -15,7 +15,7 @@
     },
     {
       "all_frames": true,
-      "matches": ["https://goodman-sd.stefanini.com/CAisd/html/popup_frames.html?POPUP_URLIX=0+popupType=1"],
+      "matches": ["https://goodman-sd.stefanini.com/CAisd/html/popup_frames.html?POPUP_URLIX=0+popupType=1", "https://goodman-sd.stefanini.com/CAisd/html/popup_frames.html?TOP_SPLASH=no+MENUBAR=no+POPUP_URLIX=0+popupType=1"],
       "js": ["ticketWindow.js"],
       "run_at": "document_end"
     },

@@ -3,11 +3,27 @@ let kbDivContainer,
 let summaryFieldElement,
     descriptionFieldElement,
     kbWarningElement = null;
+let globalEdit;
 
 document.querySelector('[name="cai_main"]').addEventListener('load', function() {
-    closeFakeTicket();
-    setTimeout(checkKB, 2000);
-    setTimeout(stageTransitionToEdit, 2000);
+    setTimeout(checkKB, 1500);
+    setTimeout(stageTransitionToEdit, 1500);
+    let targetArea = document.querySelector('[name="cai_main"]');
+    if(targetArea) {
+        targetArea.contentWindow?.document.addEventListener("keydown", function(event) {
+            if (event.ctrlKey && event.key === "g") {
+                event.preventDefault();
+                globalEdit();
+            }
+        });
+        targetArea.contentWindow?.document.addEventListener("keydown", function(event) {
+            if (event.ctrlKey && event.key === "q") {
+                event.preventDefault();
+                const allDropdowns = document.querySelector('[name="cai_main"]').contentWindow.document.querySelectorAll("span#hotspot") || document.querySelectorAll("span#hotspot");
+                allDropdowns.forEach(e=>e.click());
+            }
+        });
+    };
 });
 
 function checkKB() {
@@ -84,22 +100,29 @@ function stageTransitionToEdit() {
          || document.querySelector("a#imgBtn2.button.enabledattr.buttonEnabled");
 
         cancelButton?.addEventListener("click", () => {
-        checkKbTimeoutIds.push(setTimeout(checkKB, 2000));
-        setTimeout(stageTransitionToEdit, 2000);
+        setTimeout(checkKB, 1500);
+        setTimeout(stageTransitionToEdit, 1500);
         });
-        if (descriptionFieldElement.cols != 134) {
-            makeEditPageChanges();
-        }
+        if (descriptionFieldElement && descriptionFieldElement.cols == 134) {
+            return;
+        } else {
+            // Use a Promise to wait for the changes before continuing
+            return new Promise((resolve) => {
+                cancelButton?.addEventListener("click", () => {
+                    // Wait for 2 seconds before checking KB and transitioning again
+                    setTimeout(() => {
+                        makeEditPageChanges();
+                        resolve();
+                    }, 200);
+                });
+            });
+        };
     };
+    globalEdit = makeEditPageChanges;
 
     editButton?.addEventListener("click", () => {
         setTimeout(() => {
             makeEditPageChanges();
         }, 3000);
     });
-};
-
-function closeFakeTicket() {
-    const h3Element = document.querySelector('[name="cai_main"]')?.contentWindow?.document.querySelector("h3") || document.querySelector("h3");
-    if (h3Element?.innerText == "z_cr_all not found") window.close();
 };

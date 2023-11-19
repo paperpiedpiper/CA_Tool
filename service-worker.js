@@ -1,24 +1,31 @@
 "use strict";
 
 chrome.runtime.onMessage.addListener((message) => {
-  if (message.message == "trigger") {
-    createNotification();
-    console.log(message.message);
+  switch (message.message) {
+    case "ticketAlert":
+      createNotification();
+      break;
+    case "closeLatestTab":
+      closeLatestTab();
+      break;
+    default:
+      // Handle any other cases or provide a default action
+      break;
   }
 });
 
-function createNotification() {
+function createNotification(){
   const options = {
     type: "basic",
     title: "Alert",
     message: "Unassigned tickets in!",
     iconUrl: "images/alert.png",
     buttons: [{
-      title: "Snooze for 5 minutes",
+      title: "Snooze for 10 minutes",
       iconUrl: "images/snooze1.png",
     },
   {
-    title: "Snooze for 10 minutes",
+    title: "Snooze for 5 minutes",
     iconUrl: "images/snooze2.png"
   }]
   };
@@ -44,4 +51,60 @@ function createNotification() {
   setTimeout(function(){
     chrome.notifications.clear("unassignedAlert");
   }, 7000);
+};
+
+function closeLatestTab() {
+  let targetTab;
+  let targetWindowId;
+
+  // Create a Promise to query tabs
+  const queryTabsPromise = new Promise((resolve, reject) => {
+    chrome.tabs.query({}, (tabs) => {
+      if (tabs && tabs.length > 0) {
+        // Get the latest tab
+        targetTab = tabs[tabs.length - 1];
+        resolve(targetTab);
+      } else {
+        reject("No tabs found");
+      }
+    });
+  });
+
+  queryTabsPromise
+    .then((tab) => {
+      targetTab = tab;
+      return new Promise((resolve, reject) => {
+        // Get the window information for the targetTab
+        chrome.tabs.get(targetTab.id, (tabInfo) => {
+          if (tabInfo) {
+            targetWindowId = tabInfo.windowId;
+            resolve(targetWindowId, targetTab);
+          } else {
+            reject("Error getting tab information");
+          }
+        });
+      });
+    })
+    .then((windowId) => {
+      chrome.windows.update(windowId, { state: "minimized" });
+      return new Promise((resolve, reject) => {
+        function closeTarget() {
+          if (!targetTab.title.includes("123 Request Detail")) {
+            console.log("tabloading");
+            chrome.tabs.get(targetTab.id, (tab) => {
+              targetTab = tab;
+            });
+            setTimeout(closeTarget, 300);
+          } else {
+            console.log("tabloaded");
+            chrome.tabs.remove(targetTab.id);
+            resolve();
+          }
+        }
+        closeTarget();
+      });
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+    });
 };
