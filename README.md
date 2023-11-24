@@ -1,3 +1,6 @@
+### &emsp; 🧐Discontinued and succeeded by: [https://github.com/paperpiedpiper/SNow_Tool](https://github.com/paperpiedpiper/SNow_Tool)
+<hr />
+
 # CA Service Desk Tool
 
 While working as a Service Desk Engineer for one of Stefanini's clients, among other things, I had the responsibility of monitoring a ticket queue in the ITSM tool called CA Service Desk. <br /> <br />
